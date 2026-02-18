@@ -1,19 +1,21 @@
 package main
 
 import (
-	"bufio"
+	//"bufio"
 	"fmt"
-	"os"
-	"strings"
-	"strconv"
+	//"os"
+	//"strings"
+	//"strconv"
 )
 
+//struct - groups related data
 type Task struct {
 	Id    int
 	Title string
-	Done  string
+	Done  bool
 }
-
+var tasks []Task
+var taskIndex map[int]*Task
 func showMenu() {
 	fmt.Println("==Welcome to task manager==")
 	fmt.Println("Press 1 to add task")
@@ -22,37 +24,46 @@ func showMenu() {
 	fmt.Println("Press 4 to search tasks")
 
 	fmt.Print("Please select an option:")
-}
-func Addtasks(task *[]Task,reader *bufio.Reader){
-	fmt.Print("Enter task number:")
-	id,_:= reader.ReadString('\n')
-	id = strings.TrimSpace(id)
-	id1,_:= strconv.Atoi(id)
-	fmt.Print("Enter task title:")
-	title,_:= reader.ReadString('\n')
-	title = strings.TrimSpace(title)
-	fmt.Print("Enter task number:")
-	done,_:= reader.ReadString('\n')
-	done = strings.TrimSpace(done)
-*task = append(*task,Task{
-	Id:id1,
-	Title:title,
-	Done:done,
-})
-}
-func main() {
-	for {
-	showMenu()
-task := []Task{}
-	reader := bufio.NewReader(os.Stdin)
-	choice ,_:= reader.ReadString('\n')
-	choice = strings.TrimSpace(choice)
-	switch choice{
-	case "1":
-		Addtasks(&task, reader)
 
-	default:
-		fmt.Println("enter")
-	}
 }
+//storage
+func initStorage(){
+	tasks = make([]Task,0)
+	taskIndex = make(map[int]*Task)
+	}
+func AddTask(title string){
+id := len(tasks)-1
+task := Task{
+	Id:id,
+	Title:title,
+	Done: false,
+}
+tasks = append(tasks,task)
+taskIndex[id] = &tasks[len(tasks)-1]
+}
+func deleteTask(id int)bool{
+	
+}
+// func findTask(id int)*Task{
+// 	for i := range tasks{
+// 		if tasks[id].Id == id{
+// 			return &tasks[i]
+// 		}
+// 	}
+// 	return nil
+// }
+func renameTask(t *Task,title string){
+	t.Title = title
+}
+func main(){
+task := Task{
+	Title:"heelo",
+	Id:32,
+	Done:true,
+}
+// f
+fmt.Println(task)
+renameTask(&task,"main")
+fmt.Println(task)
+
 }
