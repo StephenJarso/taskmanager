@@ -1,10 +1,10 @@
 package main
 
 import (
-	//"bufio"
+	"bufio"
 	"fmt"
-	//"os"
-	//"strings"
+	"os"
+	"strings"
 	//"strconv"
 )
 var tasks []Task
@@ -36,15 +36,16 @@ func initStorage(){
 	tasks = make([]Task,0)
 	taskIndex = make(map[int]*Task)
 	}
-func AddTask(title string){
-id := len(tasks)-1
-task := Task{
-	Id:id,
+func AddTask(tasks *[]Task, reader *bufio.Reader){
+id := len(*tasks)-1
+fmt.Print("Enter task title:")
+title,_:= reader.ReadString('\n')
+title = strings.TrimSpace(title)
+*tasks = append(*tasks,Task{
 	Title:title,
-	Done: false,
-}
-tasks = append(tasks,task)
-taskIndex[id] = &tasks[len(tasks)-1]
+	Id:id,
+	Done:false,
+})
 }
 func deleteTask(id int)bool{
 if taskIndex[id] == nil {
@@ -85,6 +86,9 @@ func renameTask(t *Task,title string){
 	t.Title = title
 }
 func main(){
+	reader := bufio.NewReader(os.Stdin)
+	choice,_ :=reader.ReadString('\n')
+	choice = strings.TrimSpace(choice)
 task := Task{
 	Title:"heelo",
 	Id:32,
@@ -92,6 +96,14 @@ task := Task{
 }
 
 showMenu()
+switch choice{
+case "1":
+	AddTask(&tasks,reader)
+case "2":
+	fmt.Println("press 2 to exit")
+	return
+}
+
 renameTask(&task,"main")
 fmt.Println(task)
 
